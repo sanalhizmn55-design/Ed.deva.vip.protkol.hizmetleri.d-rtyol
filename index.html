@@ -3,74 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENES DEVA | VIP PROTOKOL</title>
+    <title>ENES DEVA | VIP INTEL</title>
     <style>
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000; overflow: hidden;
-            font-family: 'Courier New', Courier, monospace; color: #0f0;
-        }
-
-        /* Matrix Arkaplan */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Courier New', monospace; color: #0f0; }
         #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.2; }
-
-        /* VIP Katmanı */
-        #vip-layer {
-            position: relative; z-index: 10;
-            display: flex; justify-content: center; align-items: center;
-            height: 100%; flex-direction: column;
-        }
-
-        /* 100 Çizgi Hız Yolu */
+        #vip-layer { position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column; }
+        
         .line-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; }
-        .line {
-            position: absolute; height: 2px;
-            background: linear-gradient(90deg, transparent, #0f0, transparent);
-            width: 250px; left: -300px; opacity: 0;
-            box-shadow: 0 0 15px #0f0;
-        }
+        .line { position: absolute; height: 2px; background: linear-gradient(90deg, transparent, #0f0, transparent); width: 250px; left: -300px; opacity: 0; box-shadow: 0 0 15px #0f0; }
 
-        /* Cam Paneller */
-        .glass-panel {
-            background: rgba(0, 15, 0, 0.95);
-            border: 2px solid #0f0; padding: 50px;
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3);
-            text-align: center; border-radius: 15px;
-        }
+        .glass-panel { background: rgba(0, 15, 0, 0.95); border: 2px solid #0f0; padding: 40px; box-shadow: 0 0 40px rgba(0, 255, 0, 0.3); text-align: center; border-radius: 15px; width: 90%; max-width: 600px; }
+        #welcome-text { display: none; font-size: 2.8rem; font-weight: bold; text-shadow: 0 0 20px #0f0; letter-spacing: 10px; text-align: center; animation: glitch 0.3s infinite alternate; }
+        
+        input, textarea { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px; outline: none; }
+        textarea { height: 150px; resize: none; font-size: 0.8rem; }
+        button { background: #0f0; color: #000; border: none; padding: 15px 45px; font-weight: bold; cursor: pointer; letter-spacing: 2px; width: 100%; }
+        button:hover { box-shadow: 0 0 30px #0f0; transform: scale(1.02); }
 
-        /* Hoşgeldiniz Yazısı */
-        #welcome-text {
-            display: none; font-size: 3rem; font-weight: bold;
-            text-shadow: 0 0 20px #0f0; letter-spacing: 12px;
-            animation: glitch 0.3s infinite alternate;
-        }
-
-        @keyframes glitch {
-            from { transform: skew(2deg); text-shadow: 2px 0 #f00; }
-            to { transform: skew(-2deg); text-shadow: -2px 0 #00f; }
-        }
-
-        /* Inputlar ve Butonlar */
-        input {
-            background: #000; border: 1px solid #0f0; color: #0f0;
-            padding: 15px; width: 320px; text-align: center;
-            margin-bottom: 20px; outline: none; font-size: 1rem;
-        }
-
-        button {
-            background: #0f0; color: #000; border: none;
-            padding: 15px 45px; font-weight: bold; cursor: pointer;
-            letter-spacing: 2px; transition: 0.3s;
-        }
-
-        button:hover { box-shadow: 0 0 30px #0f0; transform: scale(1.05); }
-
-        /* Analiz Bölümü */
-        #analysisSection { display: none; width: 90%; max-width: 650px; }
-        .result-item {
-            border-bottom: 1px solid #040; padding: 12px;
-            display: flex; justify-content: space-between; font-size: 1.1rem;
-        }
+        #analysisSection { display: none; }
+        .result-item { border-bottom: 1px solid #040; padding: 10px; display: flex; justify-content: space-between; font-size: 1rem; }
+        @keyframes glitch { from { transform: skew(1deg); } to { transform: skew(-1deg); } }
     </style>
 </head>
 <body>
@@ -80,138 +32,79 @@
 
     <div id="vip-layer">
         <div id="loginSection" class="glass-panel">
-            <h1 style="letter-spacing: 4px;">SYSTEM ACCESS</h1>
-            <p style="opacity: 0.7;">VIP PROTOKOLÜNÜ DOĞRULAYIN</p>
+            <h1>VIP ENTRANCE</h1>
             <input type="password" id="passCode" placeholder="PROTOKOL KODU">
-            <br>
-            <button onclick="checkAccess()">ERİŞİM SAĞLA</button>
+            <button onclick="checkAccess()">SİSTEME SIZ</button>
         </div>
 
         <h1 id="welcome-text">HOŞGELDİNİZ ENES DEVA</h1>
 
         <div id="analysisSection" class="glass-panel">
-            <h2 style="margin-bottom: 5px;">INSTAGRAM INTEL ANALYZER</h2>
-            <p style="font-size: 0.8rem; margin-bottom: 25px; opacity: 0.6;">Hedef kullanıcı adını derinlemesine analiz et.</p>
-            <input type="text" id="targetUser" placeholder="@kullaniciadi">
-            <br>
-            <button onclick="startDeepAnalysis()">ANALİZİ BAŞLAT</button>
-            <div id="loadingArea" style="margin-top:20px; font-size: 0.9rem; min-height: 40px;"></div>
-            <div id="resultArea" style="margin-top: 25px; text-align: left;"></div>
+            <h2>INTEL DATA ANALYZER</h2>
+            <p style="font-size: 0.7rem; opacity: 0.7;">Profil verilerini veya etkileşim listesini aşağıya yapıştırın.</p>
+            <textarea id="rawData" placeholder="Kopyaladığınız verileri buraya yapıştırın (İsimler, kullanıcı adları vb.)"></textarea>
+            <button onclick="processRealData()">GERÇEK ANALİZİ BAŞLAT</button>
+            <div id="resultArea" style="margin-top: 20px; text-align: left; max-height: 250px; overflow-y: auto;"></div>
         </div>
     </div>
 
     <script>
-        // --- MATRIX EFEKTİ ---
+        // MATRIX
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "0101010101010101";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
+        const drops = Array(Math.floor(canvas.width/16)).fill(1);
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0f0';
-            ctx.font = fontSize + 'px arial';
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f0'; ctx.font = '16px arial';
+            drops.forEach((y, i) => {
+                ctx.fillText(Math.floor(Math.random()*2), i*16, y*16);
+                if(y*16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
-            }
+            });
         }
         setInterval(drawMatrix, 33);
 
-        // --- GİRİŞ KONTROLÜ ---
+        // GİRİŞ
         function checkAccess() {
-            const pass = document.getElementById('passCode').value;
-            if (pass === "ED.DEVA.VİP.PROTOKOL.2024") {
-                startVipSequence();
-            } else {
-                alert("ERİŞİM ENGELLENDİ: GEÇERSİZ PROTOKOL KODU!");
-            }
-        }
-
-        // --- VIP ANİMASYON AKIŞI (100 ÇİZGİ VE YOL) ---
-        function startVipSequence() {
-            document.getElementById('loginSection').style.display = 'none';
-            const lineBox = document.getElementById('lineBox');
-
-            // 100 Adet Hız Çizgisi Oluşturma
-            for (let i = 0; i < 100; i++) {
-                let line = document.createElement('div');
-                line.className = 'line';
-                line.style.top = Math.random() * 100 + '%';
-                line.style.opacity = '1';
-                // Rastgele hızlarla soldan sağa kayma
-                line.style.transition = `left ${2 + Math.random() * 2}s cubic-bezier(0.45, 0.05, 0.55, 0.95)`;
-                lineBox.appendChild(line);
-
-                setTimeout(() => {
-                    line.style.left = '150%';
-                }, i * 15); // Çizgilerin ardı ardına çıkış hızı
-            }
-
-            // 5 Saniye Sonra Yazı Belirsin
-            setTimeout(() => {
-                lineBox.style.display = 'none';
-                document.getElementById('welcome-text').style.display = 'block';
-                
-                // 3 saniye sonra Analiz Paneline geç
-                setTimeout(() => {
-                    document.getElementById('welcome-text').style.display = 'none';
-                    document.getElementById('analysisSection').style.display = 'block';
-                }, 3000);
-            }, 5000);
-        }
-
-        // --- ANALİZ SİMÜLASYONU ---
-        function startDeepAnalysis() {
-            const target = document.getElementById('targetUser').value;
-            if(!target) return alert("Lütfen bir kullanıcı adı girin!");
-
-            const loading = document.getElementById('loadingArea');
-            const results = document.getElementById('resultArea');
-            loading.style.display = "block";
-            results.innerHTML = "";
-
-            const steps = [
-                `> @${target} sunucu bağlantısı kuruluyor...`,
-                `> Veri paketleri ayrıştırılıyor...`,
-                `> Etkileşim algoritması çalıştırılıyor...`,
-                `> ANALİZ TAMAMLANDI.`
-            ];
-
-            let i = 0;
-            const interval = setInterval(() => {
-                loading.innerHTML = steps[i];
-                i++;
-                if(i >= steps.length) {
-                    clearInterval(interval);
-                    showResults(target);
+            if(document.getElementById('passCode').value === "ED.DEVA.VİP.PROTOKOL.2024") {
+                document.getElementById('loginSection').style.display = 'none';
+                const lb = document.getElementById('lineBox');
+                for(let i=0; i<100; i++) {
+                    let l = document.createElement('div'); l.className = 'line';
+                    l.style.top = Math.random()*100+'%'; l.style.opacity = '1';
+                    l.style.transition = `left ${2+Math.random()*2}s linear`;
+                    lb.appendChild(l);
+                    setTimeout(() => l.style.left = '150%', i*15);
                 }
-            }, 1200);
+                setTimeout(() => {
+                    lb.style.display = 'none';
+                    document.getElementById('welcome-text').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('welcome-text').style.display = 'none';
+                        document.getElementById('analysisSection').style.display = 'block';
+                    }, 3000);
+                }, 5000);
+            } else { alert("YETKİSİZ ERİŞİM!"); }
         }
 
-        function showResults(target) {
-            document.getElementById('loadingArea').innerHTML = `<strong style="color:#fff;">@${target} ANALİZ SONUÇLARI:</strong>`;
+        // GERÇEK VERİ İŞLEME
+        function processRealData() {
+            const data = document.getElementById('rawData').value;
+            // Metin içindeki tüm kelimeleri süz, sadece anlamlı kullanıcı adı/isim olabilecekleri al
+            const names = data.match(/[\w\.\d_]+/g) || [];
+            if(names.length < 3) return alert("Veri bulunamadı!");
+
+            const counts = {};
+            names.forEach(n => { if(n.length > 2) counts[n] = (counts[n] || 0) + 1; });
+
+            const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 10);
             
-            // Burası için 10 adet örnek etkileşim verisi
-            const mockData = [
-                {u: "can_demir", p: 984}, {u: "merve.x", p: 952}, 
-                {u: "berkay_y", p: 890}, {u: "selin_gunes", p: 845},
-                {u: "murat_tek", p: 760}, {u: "ece.su", p: 710},
-                {u: "hakan_derin", p: 685}, {u: "pelin_official", p: 640},
-                {u: "deniz_v", p: 590}, {u: "mert_kaya", p: 520}
-            ];
-            
-            let output = "";
-            mockData.forEach((item, index) => {
-                output += `<div class="result-item"><span>${index+1}. @${item.u}</span> <span style="color:#0f0;">${item.p} Puan</span></div>`;
+            let res = "<h3>TOP 10 GERÇEK ETKİLEŞİM</h3>";
+            sorted.forEach(([name, count], i) => {
+                res += `<div class="result-item"><span>${i+1}. @${name}</span> <span style="color:#0f0;">${count} PUAN</span></div>`;
             });
-            document.getElementById('resultArea').innerHTML = output;
+            document.getElementById('resultArea').innerHTML = res;
         }
     </script>
 </body>
