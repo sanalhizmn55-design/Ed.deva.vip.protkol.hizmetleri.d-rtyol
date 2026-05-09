@@ -3,51 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENES DEVA | VIP INTEL SYSTEM</title>
+    <title>ENES DEVA | INTEL SYSTEM</title>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Courier New', monospace; color: #0f0; }
         #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.15; }
         #vip-layer { position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column; }
-        
-        /* 100 Çizgi Hız Efekti */
         .line-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; }
         .line { position: absolute; height: 2px; background: linear-gradient(90deg, transparent, #0f0, transparent); width: 300px; left: -350px; opacity: 0; box-shadow: 0 0 15px #0f0; }
-
         .glass-panel { background: rgba(0, 10, 0, 0.95); border: 2px solid #0f0; padding: 40px; box-shadow: 0 0 50px rgba(0, 255, 0, 0.2); text-align: center; border-radius: 10px; width: 85%; max-width: 500px; }
-        #welcome-text { display: none; font-size: 2.2rem; font-weight: bold; text-shadow: 0 0 20px #0f0; letter-spacing: 6px; text-align: center; animation: glitch 0.3s infinite alternate; }
-        
+        #welcome-text { display: none; font-size: 2.2rem; font-weight: bold; text-shadow: 0 0 20px #0f0; letter-spacing: 6px; text-align: center; }
         input { background: #000; border: 1px solid #040; color: #0f0; padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px; outline: none; text-align: center; font-size: 1.1rem; }
         button { background: #0f0; color: #000; border: none; padding: 15px; font-weight: bold; cursor: pointer; letter-spacing: 2px; width: 100%; transition: 0.3s; }
         button:hover { background: #fff; box-shadow: 0 0 30px #0f0; }
-
         #analysisSection { display: none; }
         .data-card { border: 1px solid #040; padding: 15px; margin-top: 10px; text-align: left; background: rgba(0,20,0,0.5); }
         .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #020; padding-bottom: 5px; }
-        .label { color: #888; font-size: 0.75rem; }
         .value { color: #0f0; font-weight: bold; font-size: 0.9rem; }
         .result-item { border-bottom: 1px solid #030; padding: 8px; display: flex; justify-content: space-between; font-size: 0.85rem; }
-        
         #loadingLog { font-size: 0.75rem; color: #0a0; margin: 15px 0; min-height: 20px; }
-        @keyframes glitch { from { transform: skew(1deg); } to { transform: skew(-1deg); } }
     </style>
 </head>
 <body>
-
     <canvas id="matrix"></canvas>
     <div class="line-container" id="lineBox"></div>
 
     <div id="vip-layer">
         <div id="loginSection" class="glass-panel">
-            <h2 style="letter-spacing: 4px;">VIP ACCESS ONLY</h2>
-            <p style="font-size: 0.7rem; color: #888; margin-bottom: 20px;">SİSTEME ERİŞİM İÇİN PROTOKOL KODUNU GİRİN</p>
+            <h2 style="letter-spacing: 4px;">VIP ACCESS</h2>
             <input type="password" id="passCode" placeholder="PROTOKOL KODU">
-            <button onclick="checkAccess()">ONAYLA</button>
+            <button onclick="checkAccess()">GİRİŞ YAP</button>
         </div>
 
         <h1 id="welcome-text">HOŞGELDİNİZ ENES DEVA</h1>
 
         <div id="analysisSection" class="glass-panel">
-            <h3 style="margin-top:0; letter-spacing: 2px;">INTEL ANALYZER PRO</h3>
+            <h3 style="margin-top:0;">INTEL ANALYZER</h3>
             <input type="text" id="targetUser" placeholder="@kullaniciadi">
             <button onclick="startIntelAnalysis()">ANALİZİ BAŞLAT</button>
             <div id="loadingLog"></div>
@@ -56,7 +46,6 @@
     </div>
 
     <script>
-        // MATRIX ARKAPLAN
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -72,12 +61,10 @@
         }
         setInterval(drawMatrix, 40);
 
-        // GİRİŞ KONTROLÜ VE ANİMASYON
         function checkAccess() {
             if(document.getElementById('passCode').value === "ED.DEVA.VİP.PROTOKOL.2024") {
                 document.getElementById('loginSection').style.display = 'none';
                 const lb = document.getElementById('lineBox');
-                // 100 Hız Çizgisi
                 for(let i=0; i<100; i++) {
                     let l = document.createElement('div'); l.className = 'line';
                     l.style.top = Math.random()*100+'%'; l.style.opacity = '1';
@@ -93,64 +80,45 @@
                         document.getElementById('analysisSection').style.display = 'block';
                     }, 3000);
                 }, 4500);
-            } else { alert("YETKİSİZ ERİŞİM DENEMESİ!"); }
+            } else { alert("HATALI KOD!"); }
         }
 
-        // ANALİZ MOTORU
         function startIntelAnalysis() {
-            const user = document.getElementById('targetUser').value;
-            if(!user) return alert("Kullanıcı adı girin!");
-            
+            const user = document.getElementById('targetUser').value.replace('@','');
+            if(!user) return;
             const log = document.getElementById('loadingLog');
             const res = document.getElementById('resultArea');
-            res.style.display = "none";
-            log.innerHTML = "";
+            res.style.display = "none"; log.innerHTML = "";
 
-            const messages = [
-                `> @${user} verileri toplanıyor...`,
-                `> Halka açık etkileşimler taranıyor...`,
-                `> Takipçi listesi çapraz sorgulanıyor...`,
-                `> ANALİZ TAMAMLANDI.`
-            ];
-
+            const messages = [`> @${user} taranıyor...`, `> Veri paketleri ayrıştırılıyor...`, `> ANALİZ TAMAMLANDI.`];
             let i = 0;
             const timer = setInterval(() => {
-                log.innerHTML = messages[i];
-                i++;
-                if(i >= messages.length) {
-                    clearInterval(timer);
-                    displayData(user);
-                }
-            }, 1100);
+                log.innerHTML = messages[i]; i++;
+                if(i >= messages.length) { clearInterval(timer); displayData(user); }
+            }, 1000);
         }
 
         function displayData(user) {
-            const engRate = (Math.random() * (6.8 - 1.5) + 1.5).toFixed(2);
-            const hours = ["20:00 - 23:30", "22:00 - 01:00", "13:00 - 16:00"];
-            
-            // Kullanıcı adına göre gerçekçi etkileşim isimleri listesi
-            const base = user.replace(/[@._]/g, '').slice(0, 5);
-            const topUsers = [
-                `${base}_fan`, "mert_kaya06", "seda_eroll", "ipek_bayirli", 
-                "rumu.cakici", "ecrin_ceylan", "hatice_avci", "enes.xw_", 
-                "ziya_yurdakul", "hidayet_can"
+            const engRate = (Math.random() * (6.5 - 1.5) + 1.5).toFixed(2);
+            // Yazılan kullanıcı adına göre gerçekçi takipçi isimleri türetir
+            const followers = [
+                `${user}_fan`, `${user}.official`, `real_${user}`, `team_${user}`,
+                "user_"+Math.floor(Math.random()*999), "x_analyst", "pro_tracker",
+                "intel_viewer", "data_expert", "global_reach"
             ];
 
             let html = `
                 <div class="data-card">
-                    <div class="stat-row"><span class="label">ETKİLEŞİM ORANI:</span> <span class="value">%${engRate}</span></div>
-                    <div class="stat-row"><span class="label">AKTİF OLDUĞU SAAT:</span> <span class="value">${hours[Math.floor(Math.random()*hours.length)]}</span></div>
+                    <div class="stat-row"><span>ETKİLEŞİM ORANI:</span> <span class="value">%${engRate}</span></div>
+                    <div class="stat-row"><span>DURUM:</span> <span class="value">AKTİF</span></div>
                 </div>
-                <p style="font-size: 0.75rem; color: #0f0; margin: 15px 0 5px 0; border-left: 3px solid #0f0; padding-left: 10px;">EN YÜKSEK ETKİLEŞİM KURANLAR (İLK 10):</p>
+                <p style="font-size: 0.75rem; color: #0f0; margin: 15px 0 5px 0;">EN YÜKSEK ETKİLEŞİM KURANLAR:</p>
             `;
-
-            topUsers.forEach((name, idx) => {
-                html += `<div class="result-item"><span>${idx+1}. @${name}</span> <span style="color:#0f0;">AKTİF</span></div>`;
+            followers.forEach((name, idx) => {
+                html += `<div class="result-item"><span>${idx+1}. @${name}</span> <span style="color:#0f0;">${Math.floor(Math.random()*100+100)} Puan</span></div>`;
             });
-
             document.getElementById('resultArea').innerHTML = html;
             document.getElementById('resultArea').style.display = "block";
-            document.getElementById('loadingLog').innerHTML = `<span style="color:#fff;">@${user} İÇİN VERİLER LİSTELENDİ</span>`;
         }
     </script>
 </body>
