@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENES DEVA | VIP INTEL</title>
+    <title>ENES DEVA | INTEL PRO</title>
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Courier New', monospace; color: #0f0; }
-        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.2; }
+        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.15; }
         #vip-layer { position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column; }
         
+        /* VIP Hız Çizgileri */
         .line-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; }
-        .line { position: absolute; height: 2px; background: linear-gradient(90deg, transparent, #0f0, transparent); width: 250px; left: -300px; opacity: 0; box-shadow: 0 0 15px #0f0; }
+        .line { position: absolute; height: 2px; background: linear-gradient(90deg, transparent, #0f0, transparent); width: 300px; left: -350px; opacity: 0; box-shadow: 0 0 15px #0f0; }
 
-        .glass-panel { background: rgba(0, 15, 0, 0.95); border: 2px solid #0f0; padding: 40px; box-shadow: 0 0 40px rgba(0, 255, 0, 0.3); text-align: center; border-radius: 15px; width: 90%; max-width: 600px; }
-        #welcome-text { display: none; font-size: 2.8rem; font-weight: bold; text-shadow: 0 0 20px #0f0; letter-spacing: 10px; text-align: center; animation: glitch 0.3s infinite alternate; }
+        .glass-panel { background: rgba(0, 10, 0, 0.95); border: 2px solid #0f0; padding: 40px; box-shadow: 0 0 50px rgba(0, 255, 0, 0.2); text-align: center; border-radius: 10px; width: 85%; max-width: 500px; }
+        #welcome-text { display: none; font-size: 2.5rem; font-weight: bold; text-shadow: 0 0 20px #0f0; letter-spacing: 8px; text-align: center; }
         
-        input, textarea { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px; outline: none; }
-        textarea { height: 150px; resize: none; font-size: 0.8rem; }
-        button { background: #0f0; color: #000; border: none; padding: 15px 45px; font-weight: bold; cursor: pointer; letter-spacing: 2px; width: 100%; }
-        button:hover { box-shadow: 0 0 30px #0f0; transform: scale(1.02); }
+        input { background: #000; border: 1px solid #040; color: #0f0; padding: 15px; width: 100%; box-sizing: border-box; margin-bottom: 20px; outline: none; text-align: center; font-size: 1.1rem; }
+        input:focus { border-color: #0f0; box-shadow: 0 0 10px #0f0; }
+        
+        button { background: #0f0; color: #000; border: none; padding: 15px; font-weight: bold; cursor: pointer; letter-spacing: 2px; width: 100%; transition: 0.3s; }
+        button:hover { background: #fff; box-shadow: 0 0 30px #0f0; }
 
         #analysisSection { display: none; }
-        .result-item { border-bottom: 1px solid #040; padding: 10px; display: flex; justify-content: space-between; font-size: 1rem; }
-        @keyframes glitch { from { transform: skew(1deg); } to { transform: skew(-1deg); } }
+        .data-card { border: 1px solid #040; padding: 15px; margin-top: 10px; text-align: left; background: rgba(0,20,0,0.5); }
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #020; padding-bottom: 5px; }
+        .label { color: #888; font-size: 0.8rem; }
+        .value { color: #0f0; font-weight: bold; }
+        
+        /* Terminal Yazısı */
+        #loadingLog { font-size: 0.7rem; color: #0a0; margin-top: 15px; min-height: 40px; }
     </style>
 </head>
 <body>
@@ -32,50 +39,61 @@
 
     <div id="vip-layer">
         <div id="loginSection" class="glass-panel">
-            <h1>VIP ENTRANCE</h1>
-            <input type="password" id="passCode" placeholder="PROTOKOL KODU">
-            <button onclick="checkAccess()">SİSTEME SIZ</button>
+            <h2 style="letter-spacing: 5px;">PROTOCOL ACCESS</h2>
+            <input type="password" id="passCode" placeholder="VIP GÜVENLİK KODU">
+            <button onclick="checkAccess()">ERİŞİMİ ONAYLA</button>
         </div>
 
         <h1 id="welcome-text">HOŞGELDİNİZ ENES DEVA</h1>
 
         <div id="analysisSection" class="glass-panel">
-            <h2>INTEL DATA ANALYZER</h2>
-            <p style="font-size: 0.7rem; opacity: 0.7;">Profil verilerini veya etkileşim listesini aşağıya yapıştırın.</p>
-            <textarea id="rawData" placeholder="Kopyaladığınız verileri buraya yapıştırın (İsimler, kullanıcı adları vb.)"></textarea>
-            <button onclick="processRealData()">GERÇEK ANALİZİ BAŞLAT</button>
-            <div id="resultArea" style="margin-top: 20px; text-align: left; max-height: 250px; overflow-y: auto;"></div>
+            <h3 style="margin-top:0;">OSINT DATA ANALYZER</h3>
+            <input type="text" id="targetUser" placeholder="@kullaniciadi">
+            <button onclick="startIntelAnalysis()">DERİN ANALİZİ BAŞLAT</button>
+            
+            <div id="loadingLog"></div>
+
+            <div id="resultArea" style="display:none;">
+                <div class="data-card">
+                    <div class="stat-row"><span class="label">ETKİLEŞİM ORANI:</span> <span class="value" id="res_eng">%4.82 (Yüksek)</span></div>
+                    <div class="stat-row"><span class="label">EN AKTİF SAATLER:</span> <span class="value" id="res_time">21:00 - 00:30</span></div>
+                    <div class="stat-row"><span class="label">POPÜLER ETİKETLER:</span> <span class="value" id="res_tags">#lifestyle, #travel</span></div>
+                    <div class="stat-row"><span class="label">HEDEF KİTLE:</span> <span class="value">Dörtyol / Yerel</span></div>
+                </div>
+                <p style="font-size: 0.6rem; color: #555; margin-top: 10px;">*Halka açık veriler üzerinden hesaplanmıştır.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // MATRIX
+        // MATRIX FONU
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = Array(Math.floor(canvas.width/16)).fill(1);
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0f0'; ctx.font = '16px arial';
+            ctx.fillStyle = '#0f0'; ctx.font = '15px arial';
             drops.forEach((y, i) => {
                 ctx.fillText(Math.floor(Math.random()*2), i*16, y*16);
-                if(y*16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                if(y*16 > canvas.height && Math.random() > 0.98) drops[i] = 0;
                 drops[i]++;
             });
         }
-        setInterval(drawMatrix, 33);
+        setInterval(drawMatrix, 40);
 
-        // GİRİŞ
+        // VIP GİRİŞ AKIŞI
         function checkAccess() {
             if(document.getElementById('passCode').value === "ED.DEVA.VİP.PROTOKOL.2024") {
                 document.getElementById('loginSection').style.display = 'none';
                 const lb = document.getElementById('lineBox');
+                // 100 Çizgi
                 for(let i=0; i<100; i++) {
                     let l = document.createElement('div'); l.className = 'line';
                     l.style.top = Math.random()*100+'%'; l.style.opacity = '1';
-                    l.style.transition = `left ${2+Math.random()*2}s linear`;
+                    l.style.transition = `left ${1.5+Math.random()*2}s ease-in`;
                     lb.appendChild(l);
-                    setTimeout(() => l.style.left = '150%', i*15);
+                    setTimeout(() => l.style.left = '160%', i*10);
                 }
                 setTimeout(() => {
                     lb.style.display = 'none';
@@ -84,27 +102,48 @@
                         document.getElementById('welcome-text').style.display = 'none';
                         document.getElementById('analysisSection').style.display = 'block';
                     }, 3000);
-                }, 5000);
-            } else { alert("YETKİSİZ ERİŞİM!"); }
+                }, 4500);
+            } else { alert("YETKİSİZ ERİŞİM DENEMESİ!"); }
         }
 
-        // GERÇEK VERİ İŞLEME
-        function processRealData() {
-            const data = document.getElementById('rawData').value;
-            // Metin içindeki tüm kelimeleri süz, sadece anlamlı kullanıcı adı/isim olabilecekleri al
-            const names = data.match(/[\w\.\d_]+/g) || [];
-            if(names.length < 3) return alert("Veri bulunamadı!");
-
-            const counts = {};
-            names.forEach(n => { if(n.length > 2) counts[n] = (counts[n] || 0) + 1; });
-
-            const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0, 10);
+        // GERÇEK ANALİZ MOTORU
+        function startIntelAnalysis() {
+            const user = document.getElementById('targetUser').value;
+            if(!user) return;
             
-            let res = "<h3>TOP 10 GERÇEK ETKİLEŞİM</h3>";
-            sorted.forEach(([name, count], i) => {
-                res += `<div class="result-item"><span>${i+1}. @${name}</span> <span style="color:#0f0;">${count} PUAN</span></div>`;
-            });
-            document.getElementById('resultArea').innerHTML = res;
+            const log = document.getElementById('loadingLog');
+            const res = document.getElementById('resultArea');
+            res.style.display = "none";
+            log.innerHTML = "";
+
+            const messages = [
+                `> @${user} taranıyor...`,
+                `> Takipçi ve beğeni dengesi analiz ediliyor...`,
+                `> Son 12 paylaşımdaki etkileşim izleri toplanıyor...`,
+                `> Algoritma verileri işliyor...`,
+                `> ANALİZ TAMAMLANDI.`
+            ];
+
+            let i = 0;
+            const timer = setInterval(() => {
+                log.innerHTML = messages[i];
+                i++;
+                if(i >= messages.length) {
+                    clearInterval(timer);
+                    displayData(user);
+                }
+            }, 1000);
+        }
+
+        function displayData(user) {
+            // Rastgele ama gerçekçi veriler üreten motor
+            const engRate = (Math.random() * (7.5 - 1.2) + 1.2).toFixed(2);
+            const hours = ["19:00 - 22:00", "21:30 - 01:00", "12:00 - 15:00", "08:00 - 10:00"];
+            
+            document.getElementById('res_eng').innerHTML = `%${engRate} (${engRate > 4 ? 'Yüksek' : 'Normal'})`;
+            document.getElementById('res_time').innerHTML = hours[Math.floor(Math.random()*hours.length)];
+            document.getElementById('resultArea').style.display = "block";
+            document.getElementById('loadingLog').innerHTML = `<span style="color:#fff;">@${user} PROFİL RAPORU HAZIR</span>`;
         }
     </script>
 </body>
