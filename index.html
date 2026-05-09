@@ -6,107 +6,70 @@
     <title>ENES DEVA | VIP PROTOKOL</title>
     <style>
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            overflow: hidden;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #000; overflow: hidden;
             font-family: 'Courier New', Courier, monospace;
-        }
-
-        /* Matrix Canvas */
-        #matrix {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            opacity: 0.3;
-        }
-
-        /* VIP Giriş Katmanı */
-        #vip-layer {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            flex-direction: column;
-        }
-
-        /* 100 Çizgi Animasyonu */
-        .line-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        .line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #0f0, transparent);
-            width: 150px;
-            left: -200px;
-            opacity: 0.8;
-            box-shadow: 0 0 10px #0f0;
-        }
-
-        /* Hoşgeldin Yazısı */
-        #welcome-text {
-            display: none;
             color: #0f0;
-            font-size: 3rem;
-            font-weight: bold;
-            text-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
-            text-transform: uppercase;
-            letter-spacing: 10px;
+        }
+
+        /* Matrix Arkaplan */
+        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.25; }
+
+        /* VIP Katmanı */
+        #vip-layer {
+            position: relative; z-index: 10;
+            display: flex; justify-content: center; align-items: center;
+            height: 100%; flex-direction: column;
+        }
+
+        /* Hız Çizgileri */
+        .line-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; }
+        .line {
+            position: absolute; height: 2px;
+            background: linear-gradient(90deg, transparent, #0f0, transparent);
+            width: 200px; left: -250px; opacity: 0;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        /* Paneller */
+        .glass-panel {
+            background: rgba(0, 20, 0, 0.9);
+            border: 2px solid #0f0;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.3);
             text-align: center;
-            animation: glitch 1s infinite;
+            border-radius: 10px;
+        }
+
+        #welcome-text {
+            display: none; font-size: 3.5rem; font-weight: bold;
+            text-shadow: 0 0 20px #0f0; letter-spacing: 15px;
+            text-align: center; animation: glitch 0.2s infinite alternate;
         }
 
         @keyframes glitch {
-            0% { transform: skew(0deg); }
-            20% { transform: skew(2deg); }
-            40% { transform: skew(-2deg); }
-            100% { transform: skew(0deg); }
+            from { transform: translate(2px); text-shadow: 2px 2px #f00; }
+            to { transform: translate(-2px); text-shadow: -2px -2px #00f; }
         }
 
-        /* Şifre Paneli */
-        .login-box {
-            background: rgba(0, 20, 0, 0.9);
-            border: 1px solid #0f0;
-            padding: 30px;
-            box-shadow: 0 0 50px rgba(0, 255, 0, 0.2);
-            text-align: center;
-        }
-
-        input {
-            background: #000;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 10px;
-            width: 280px;
-            text-align: center;
-            outline: none;
-            margin-bottom: 15px;
+        input[type="password"], input[type="file"] {
+            background: #000; border: 1px solid #0f0; color: #0f0;
+            padding: 15px; width: 300px; text-align: center; margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
         }
 
         button {
-            background: #0f0;
-            color: #000;
-            border: none;
-            padding: 10px 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+            background: #0f0; color: #000; border: none;
+            padding: 15px 40px; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px;
         }
 
-        button:hover {
-            box-shadow: 0 0 20px #0f0;
+        button:hover { box-shadow: 0 0 30px #0f0; background: #fff; }
+
+        #analysisSection { display: none; width: 90%; max-width: 700px; }
+        .result-item {
+            border-bottom: 1px solid #040; padding: 10px;
+            display: flex; justify-content: space-between;
         }
     </style>
 </head>
@@ -116,28 +79,37 @@
     <div class="line-container" id="lineBox"></div>
 
     <div id="vip-layer">
-        <div id="loginSection" class="login-box">
-            <h2 style="color: #0f0;">VIP ACCESS REQUIRED</h2>
-            <input type="password" id="passCode" placeholder="PROTOKOL ŞİFRESİ">
+        <div id="loginSection" class="glass-panel">
+            <h1 style="letter-spacing: 5px;">SİSTEME ERİŞİM</h1>
+            <p>ENES DEVA PROTOKOLÜNÜ DOĞRULAYIN</p>
+            <input type="password" id="passCode" placeholder="GÜVENLİK KODU">
             <br>
-            <button onclick="checkAccess()">ERİŞİM SAĞLA</button>
+            <button onclick="checkAccess()">GİRİŞ YAP</button>
         </div>
+
         <h1 id="welcome-text">HOŞGELDİNİZ ENES DEVA</h1>
+
+        <div id="analysisSection" class="glass-panel">
+            <h2>INSTAGRAM ANALİZ MERKEZİ</h2>
+            <p>Mesaj dosyanızı (JSON) yükleyin ve en yakınlarınızı bulun.</p>
+            <input type="file" id="fileInput" accept=".json">
+            <div id="resultArea" style="margin-top: 30px; text-align: left;"></div>
+        </div>
     </div>
 
     <script>
-        // Matrix Efekti
+        // MATRIX EFEKTİ
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const letters = "01010101010101010101";
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#0f0';
             ctx.font = fontSize + 'px arial';
@@ -150,42 +122,75 @@
         }
         setInterval(drawMatrix, 33);
 
-        // Şifre Kontrolü ve VIP Animasyon Başlangıcı
+        // GİRİŞ KONTROLÜ
         function checkAccess() {
             const pass = document.getElementById('passCode').value;
             if (pass === "ED.DEVA.VİP.PROTOKOL.2024") {
                 startVipSequence();
             } else {
-                alert("ERİŞİM REDDEDİLDİ: YETKİSİZ GİRİŞ DENEMESİ!");
+                alert("ERİŞİM REDDEDİLDİ!");
             }
         }
 
+        // VIP ANİMASYON AKIŞI
         function startVipSequence() {
             document.getElementById('loginSection').style.display = 'none';
             const lineBox = document.getElementById('lineBox');
 
-            // 100 Çizgi Oluşturma
+            // 100 Çizgi Hız Animasyonu
             for (let i = 0; i < 100; i++) {
                 let line = document.createElement('div');
                 line.className = 'line';
                 line.style.top = Math.random() * 100 + '%';
-                line.style.animationDelay = (Math.random() * 2) + 's';
-                line.style.transition = 'all 5s linear';
+                line.style.opacity = '1';
+                line.style.transition = 'left 4s cubic-bezier(0.45, 0.05, 0.55, 0.95)';
                 lineBox.appendChild(line);
 
-                // Çizgileri soldan sağa kaydır
                 setTimeout(() => {
-                    line.style.left = '120%';
-                }, 100);
+                    line.style.left = '150%';
+                }, i * 20);
             }
 
-            // 5 Saniye Sonra Yazıya Dönüş
+            // 5 Saniye Sonra Yazı ve Analiz Paneli
             setTimeout(() => {
                 lineBox.style.display = 'none';
                 document.getElementById('welcome-text').style.display = 'block';
-                // Burada analiz paneline yönlendirme yapabiliriz
+                
+                setTimeout(() => {
+                    document.getElementById('welcome-text').style.display = 'none';
+                    document.getElementById('analysisSection').style.display = 'block';
+                }, 3000);
             }, 5000);
         }
+
+        // ANALİZ MOTORU
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    const messages = data.messages || [];
+                    const results = {};
+
+                    messages.forEach(msg => {
+                        const name = msg.sender_name || "Bilinmeyen";
+                        results[name] = (results[name] || 0) + 1;
+                    });
+
+                    const sorted = Object.entries(results).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+                    let output = "<h3>TOP 10 ETKİLEŞİM</h3>";
+                    sorted.forEach(([name, count], index) => {
+                        output += `<div class="result-item"><span>${index+1}. ${name}</span> <span>${count} Mesaj</span></div>`;
+                    });
+                    document.getElementById('resultArea').innerHTML = output;
+                } catch (err) {
+                    alert("Dosya okunamadı! Lütfen geçerli bir JSON dosyası yükleyin.");
+                }
+            };
+            reader.readAsText(file);
+        });
     </script>
 </body>
 </html>
